@@ -1,0 +1,32 @@
+###Login
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"super@gmail.com",
+    "password":"password"
+}
+
+### logout
+DELETE    http://localhost:5000/auth/logout
+
+
+### get Me
+GET  http://localhost:5000/auth/me
+
+
+### get token
+GET http://localhost:5000/token/eae1469a-a615-401d-961b-5dda7b73236c
+
+###register
+POST http://localhost:5000/auth/register
+Content-Type: application/json
+
+{
+    "name":"test4",
+    "email":"test4@gmail.com",
+    "password":"password"
+}
+
+### first token
+GET http://localhost:5000/auth/first_token/c0060c3e-0bce-4cc5-82db-0dbc1477fcd7

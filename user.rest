@@ -1,0 +1,29 @@
+#### get all
+GET http://localhost:5000/users?name=s
+
+#### get singgle
+GET http://localhost:5000/users/eae1469a-a615-401d-961b-5dda7b73236c
+### add user
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name":"hihi",
+    "email":"hihi@gmail.com",
+    "password":"password"
+}
+
+### update user
+PUT  http://localhost:5000/users/2799c643-98ad-48bd-9f74-74b90563798f
+Content-Type: application/json
+
+{
+    "name":"test updated"
+}
+
+### delete user
+DELETE  http://localhost:5000/users/2799c643-98ad-48bd-9f74-74b90563798f
+
+
+###not registered
+GET http://localhost:5000/find/users?name=test0&email=

@@ -1,0 +1,16 @@
+GET http://localhost:5000/otp/get
+Content-Type: application/json
+
+{
+    "email":"oktaviandua4@gmail.com",
+    "from":"verifyAccount"
+}
+
+### verivy
+POST http://localhost:5000/otp/verify
+Content-Type: application/json
+
+{
+    "email":"super@gmail.com",
+    "otp":"180718"
+}

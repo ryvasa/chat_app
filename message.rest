@@ -1,0 +1,12 @@
+### message (menggunakan chat id)
+POST http://localhost:5000/messages/1ed388c4-f6bc-4420-a03f-ef067060a658
+Content-Type: application/json
+
+{
+    "message":"coba"
+}
+
+
+# menggunkan contoct id
+### get messages 
+GET http://localhost:5000/messages/db31993a-842b-49b7-8c26-e4e347cb63fd

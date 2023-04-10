@@ -1,0 +1,37 @@
+#### get all
+GET http://localhost:5000/users
+
+### Login 
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"super@gmail.com",
+    "password":"password"
+}
+
+### logout
+DELETE    http://localhost:5000/auth/logout
+
+### Login 
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "password":"password"
+}
+
+
+### add contact
+POST  http://localhost:5000/contacts/8103efa4-1c79-4505-9041-bd1eb9296f6c
+
+
+### get contacts
+GET http://localhost:5000/contacts?name=
+
+### get contact berdasarkan contact_id
+GET http://localhost:5000/contacts/69173d6e-ebca-4b81-9933-929bf736e1d5
+
+### delete contact
+DELETE http://localhost:5000/contacts/425aea17-8035-4855-8fbe-fbfa31d06017
