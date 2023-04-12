@@ -108,19 +108,6 @@ function Profile() {
                   <span>{user.last_online}</span>
                 </div>
               </div>
-              <div className="flex w-4/5 text-gray-300 gap-1">
-                <div className="flex flex-1 gap-1">
-                  <BiInfoCircle className="w-6 h-6 text-purple-700" />
-                  <div className="flex justify-between w-full">
-                    {' '}
-                    <span>Status</span>
-                    <span>:</span>
-                  </div>
-                </div>
-                <div className="flex-1">
-                  <span>{user.status}</span>
-                </div>
-              </div>
             </div>
             <EditProfile data={user} />
           </div>

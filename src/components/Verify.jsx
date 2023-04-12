@@ -49,7 +49,7 @@ function Verify({ inputs, error }) {
   }, [token]);
   useEffect(() => {
     if (localUser) {
-      navigate('/');
+      navigate('/chats');
     }
   }, [localUser]);
   return (

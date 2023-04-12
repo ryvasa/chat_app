@@ -67,13 +67,6 @@ function Contact() {
           </div>
           <span className="flex-1">: {user.last_online}</span>
         </div>
-        <div className="flex w-4/5 text-gray-300">
-          <div className="flex flex-1 gap-1">
-            <BiInfoCircle className="w-6 h-6 text-purple-700" />
-            <span>Status</span>
-          </div>
-          <span className="flex-1">: {user.status}</span>
-        </div>
       </div>
       <div className="flex-col w-4/5 flex justify-center items-center gap-3">
         <Link

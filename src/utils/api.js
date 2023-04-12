@@ -94,20 +94,63 @@ export const getContacts = async (query, setSuccess, setError) => {
     setError(error);
   }
 };
-export const getChats = async (query, setSuccess, setError) => {
+export const addPrivateChats = async (data, callback) => {
   try {
-    const response = await axios.get(`${url}/chats?name=${query}`);
+    const response = await axios.post(`${url}/private_chats`, data);
+    callback(response.data);
+    return response.data;
+  } catch (error) {
+    return error;
+  }
+};
+export const getPrivateChats = async (query, setSuccess, setError) => {
+  try {
+    const response = await axios.get(`${url}/private_chats?name=${query}`);
     setSuccess(response.data);
   } catch (error) {
     setError(error);
   }
 };
-export const getChat = async (setSuccess, setError, id) => {
+export const getGroupChats = async (query, setSuccess, setError) => {
   try {
-    const response = await axios.get(`${url}/chats/${id}`);
+    const response = await axios.get(`${url}/group_chats?name=${query}`);
     setSuccess(response.data);
   } catch (error) {
     setError(error);
+  }
+};
+export const getPrivateChat = async (setSuccess, setError, id) => {
+  try {
+    const response = await axios.get(`${url}/private_chats/${id}`);
+    setSuccess(response.data);
+  } catch (error) {
+    setError(error);
+  }
+};
+export const addGroupChat = async (data, callback) => {
+  try {
+    const response = await axios.post(`${url}/group_chats`, data);
+    callback();
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+export const getGroupChat = async (setSuccess, setError, id) => {
+  try {
+    const response = await axios.get(`${url}/group_chats/${id}`);
+    setSuccess(response.data);
+  } catch (error) {
+    setError(error);
+  }
+};
+export const outGroupChat = async (id, callback) => {
+  try {
+    const response = await axios.put(`${url}/group_chats/${id}`);
+    callback();
+    return response;
+  } catch (error) {
+    return error;
   }
 };
 export const sendMessage = async (data, id) => {
@@ -140,6 +183,15 @@ export const updateUser = async (id, data, callback) => {
   try {
     const response = await axios.put(`${url}/users/${id}`, data);
     callback(true);
+    return response;
+  } catch (error) {
+    return error;
+  }
+};
+export const addContact = async (data, callback) => {
+  try {
+    const response = await axios.post(`${url}/contacts`, data);
+    callback();
     return response;
   } catch (error) {
     return error;

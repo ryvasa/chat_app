@@ -259,6 +259,8 @@ function EditProfile({ data }) {
                     disabled={
                       !file &&
                       !inputs.name &&
+                      !inputs.status &&
+                      !inputs.phone &&
                       !inputs.email &&
                       !inputs.password &&
                       !inputs.confirmPassword

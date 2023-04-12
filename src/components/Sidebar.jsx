@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { BiLogOutCircle, BiConversation, BiBook } from 'react-icons/bi';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../utils/api';
-import AddChat from './AddChat';
-import AddGroupChat from './AddGroupChat';
 import Profile from './Profile';
 
 function Sidebar() {
@@ -34,7 +32,7 @@ function Sidebar() {
         />
       </div>
       <Profile />
-      <Link to="/" className="tooltip tooltip-right" data-tip="Chats">
+      <Link to="/chats" className="tooltip tooltip-right" data-tip="Chats">
         <BiConversation className="w-8 h-8 text-gray-300" />
       </Link>
       <Link
@@ -44,8 +42,6 @@ function Sidebar() {
       >
         <BiBook className="w-8 h-8 text-gray-300" />
       </Link>
-      <AddChat />
-      <AddGroupChat />
       <button
         type="button"
         onClick={handleLogout}

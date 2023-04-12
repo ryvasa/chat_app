@@ -1,14 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { BiSearchAlt, BiSend, BiX } from 'react-icons/bi';
-import { useParams, Link } from 'react-router-dom';
+import { BiSend } from 'react-icons/bi';
+import { useLocation, useParams } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import { v4 as uuidv4 } from 'uuid';
-import { getChat, refreshToken, sendMessage } from '../utils/api';
+import {
+  getGroupChat,
+  getPrivateChat,
+  refreshToken,
+  sendMessage,
+} from '../utils/api';
 import time from '../utils/timeFormat';
+import OutGroupChat from './OutGroupChat';
 
 function Chat() {
   const socket = useRef();
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState({});
   const [newMessage, setNewMessage] = useState('');
   const { id } = useParams();
   const [errorMessage, setErrorMessage] = useState({});
@@ -17,6 +23,9 @@ function Chat() {
   const [receivedMessage, setReceivedMessage] = useState({});
   const [room, setRoom] = useState({});
   const [loading, setLoading] = useState(false);
+  const location = useLocation();
+  const { pathname } = location;
+
   const setSuccess = (data) => {
     setChat(data);
   };
@@ -28,9 +37,12 @@ function Chat() {
   const setError = (data) => {
     setErrorMessage(data);
   };
+  const currentPath = pathname.split('/')[1];
   useEffect(() => {
     refreshToken().then(() => {
-      getChat(setSuccess, setError, id);
+      currentPath === 'group'
+        ? getGroupChat(setSuccess, setError, id)
+        : getPrivateChat(setSuccess, setError, id);
     });
   }, [id]);
   const scrollRef = useRef(null);
@@ -62,7 +74,7 @@ function Chat() {
   useEffect(() => {
     if (receivedMessage && messages) {
       setMessages(() => {
-        if (messages.some((m) => m.uuid === receivedMessage.uuid)) {
+        if (messages.some((message) => message.uuid === receivedMessage.uuid)) {
           return messages;
         } else {
           return [...messages, receivedMessage];
@@ -97,8 +109,12 @@ function Chat() {
       <div className="flex w-1/2 pr-10 bg-gay-600 text-gray-300 justify-center fixed bg-gray-800 px-7 py-3 z-10">
         <img
           src={
-            chat?.privateChat?.[0]?.contact?.contact?.img
-              ? chat?.privateChat?.[0]?.contact?.contact?.img
+            chat.receiver_id === user.uuid
+              ? chat.sender?.img ??
+                'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
+              : chat.sender_id === user.uuid
+              ? chat.receiver?.img ??
+                'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
               : 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
           }
           alt="avatar"
@@ -106,29 +122,51 @@ function Chat() {
         />
         <div className="flex flex-col w-full pl-3 text-gray-300 justify-center">
           <p className="font-medium text-lg">
-            {chat?.privateChat?.[0]?.contact?.contact?.name ||
-              chat?.groupChat?.[0]?.group_name}
+            {chat.group_name
+              ? chat.group_name
+              : chat.receiver_id === user.uuid
+              ? chat.sender?.name
+              : chat.receiver?.name}
           </p>
         </div>
+        {currentPath === 'group' && <OutGroupChat />}
       </div>
       <div className="text-gray-300 px-3 py-20">
-        {messages?.map((m) => (
-          <div className="" key={m.uuid}>
-            {m.user_id === user.uuid ? (
+        {messages?.map((message) => (
+          <div className="" key={message.uuid}>
+            {message.user_id === user.uuid ? (
               <div className="chat chat-end">
-                <div className="chat-bubble bg-purple-800">{m.message}</div>
+                <div className="chat-bubble bg-purple-800">
+                  {message.message}
+                </div>
                 <div className="chat-footer pt-1">
                   <time className="text-sm opacity-50">
-                    {time(m.createdAt)}
+                    {time(message.createdAt)}
                   </time>
                 </div>
               </div>
             ) : (
               <div className="chat chat-start">
-                <div className="chat-bubble bg-gray-800">{m.message}</div>
+                {currentPath === 'group' && (
+                  <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                      <img
+                        src={
+                          message.user?.img
+                            ? message.user?.img
+                            : 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+                <div className="chat-header text-gray-300">
+                  {message.user?.name}
+                </div>
+                <div className="chat-bubble bg-gray-800">{message.message}</div>
                 <div className="chat-footer pt-1">
                   <time className="text-sm opacity-50">
-                    {time(m.createdAt)}
+                    {time(message.createdAt)}
                   </time>
                 </div>
               </div>
@@ -139,7 +177,7 @@ function Chat() {
         <div ref={scrollRef} />
       </div>
       <div className="flex w-1/2 lg:w-full justify-center items-center relative ">
-        <div className="fixed bottom-0 h-20 w-full bg-gradient-to-t from-gray-900" />
+        <div className="fixed bottom-0 h-20 w-1/2 bg-gradient-to-t from-gray-900" />
         <div className="w-[550px]  bg-gray-800 flex justify-center items-center gap-2 rounded-full px-5 fixed bottom-10 shadow-xl py-1 ">
           <input
             value={newMessage}

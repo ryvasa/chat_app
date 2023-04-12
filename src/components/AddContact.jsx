@@ -1,26 +1,49 @@
 import React, { useEffect, useState } from 'react';
-import { BiSearchAlt, BiUserPlus } from 'react-icons/bi';
-import { getAllUsers } from '../utils/api';
+import { BiConversation, BiSearchAlt, BiUserPlus } from 'react-icons/bi';
+import { addContact, getAllUsers, getContacts } from '../utils/api';
 import time from '../utils/timeFormat';
 
 function AddContact() {
   const [users, setUsers] = useState([]);
   const [name, setName] = useState('');
+  const [contacts, setContacts] = useState([]);
+  const [arrayContacts, setArrayContacts] = useState(contacts);
 
-  const callback = (data) => {
+  const userCallBack = (data) => {
     setUsers(data);
   };
+  const contactCallBack = (data) => {
+    setContacts(data);
+  };
+  const filterContactsByName = () => {
+    return contacts.filter((contact) => contact.user.name.includes(name));
+  };
   useEffect(() => {
-    getAllUsers(name, callback);
+    setArrayContacts(filterContactsByName);
+  }, [name, contacts]);
+  useEffect(() => {
+    getContacts(name, contactCallBack);
+    getAllUsers(name, userCallBack);
   }, [name]);
+  const nonContacts = users.filter(
+    (obj) => !contacts.find(({ user }) => obj.uuid === user.uuid),
+  );
+  const callBackAdd = () => {
+    getAllUsers(name, userCallBack);
+    getContacts(name, contactCallBack);
+    setArrayContacts(filterContactsByName);
+  };
+  const handleClick = (id) => {
+    const data = { userId: id };
+    addContact(data, callBackAdd);
+  };
   return (
     <>
       <label
         htmlFor="addContact"
-        className="btn btn-sm bg-purple-800 hover:bg-purple-700 border-none text-gray-300 flex"
+        className="btn btn-sm btn-square bg-purple-800 hover:bg-purple-700 border-none text-gray-300 flex"
       >
         <BiUserPlus className="pr-1 w-7 h-7" />
-        <span>Add Contact</span>
       </label>
 
       <input type="checkbox" id="addContact" className="modal-toggle" />
@@ -47,7 +70,7 @@ function AddContact() {
               <div className="overflow-x-auto ">
                 <table className="table w-full">
                   <tbody>
-                    {users.map((user) => (
+                    {nonContacts.map((user) => (
                       <tr className="bg-transparent flex " key={user.uuid}>
                         <td className="bg-transparent flex flex-[3] justify-start">
                           {user.name}
@@ -57,10 +80,32 @@ function AddContact() {
                         </td>
                         <td className="bg-transparent flex flex-1 justify-center">
                           <button
+                            onClick={(e) => handleClick(user.uuid)}
                             type="button"
                             className="btn btn-sm btn-square bg-purple-800 border-none hover:bg-purple-600"
                           >
                             <BiUserPlus className="w-6 h-6 text-gray-300" />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                    {arrayContacts.map((contact) => (
+                      <tr
+                        className="bg-transparent flex "
+                        key={contact.user?.uuid}
+                      >
+                        <td className="bg-transparent flex flex-[3] justify-start">
+                          {contact.user?.name}
+                        </td>
+                        <td className="bg-transparent flex flex-1 justify-center">
+                          {time(contact.user?.last_online)}
+                        </td>
+                        <td className="bg-transparent flex flex-1 justify-center">
+                          <button
+                            type="button"
+                            className="btn btn-sm btn-square bg-purple-800 border-none hover:bg-purple-600"
+                          >
+                            <BiConversation className="w-6 h-6 text-gray-300" />
                           </button>
                         </td>
                       </tr>

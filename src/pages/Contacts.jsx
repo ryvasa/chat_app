@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BiSearchAlt, BiUserCircle } from 'react-icons/bi';
+import { BiRefresh, BiSearchAlt, BiUserCircle } from 'react-icons/bi';
 import { useParams } from 'react-router-dom';
 import { getContacts, refreshToken } from '../utils/api';
 
@@ -24,6 +24,12 @@ function Contacts() {
       getContacts(query, setSuccess, setError);
     });
   }, [query]);
+  const handleClick = (e) => {
+    e.preventDefault();
+    refreshToken().then(() => {
+      getContacts(query, setSuccess, setError);
+    });
+  };
   return (
     <div className="relative">
       <div className="flex fixed w-full">
@@ -38,6 +44,13 @@ function Contacts() {
                 className="outline-none bg-transparent border-b-2 w-full border-purple-900"
               />
               <BiSearchAlt className="text-purple-700 w-7 h-7" />
+              <button
+                type="button"
+                onClick={handleClick}
+                className="btn btn-sm btn-square bg-purple-800 hover:bg-purple-800 border-none"
+              >
+                <BiRefresh className="text-gray-300 w-6 h-6" />
+              </button>
               <AddContact />
             </div>
             <Table contacts={contacts} from="contacts" />

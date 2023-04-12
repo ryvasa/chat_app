@@ -11,7 +11,7 @@ function Login() {
   const data = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     if (data) {
-      navigate('/');
+      navigate('/chats');
     }
   }, [loading]);
   const handleError = (err) => {

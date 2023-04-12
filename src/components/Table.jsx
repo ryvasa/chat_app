@@ -25,23 +25,23 @@ function Table({ contacts }) {
                     <div className="mask mask-squircle w-12 h-12">
                       <img
                         src={
-                          c.contact?.img
-                            ? c.contact?.img
+                          c.user?.img
+                            ? c.user?.img
                             : 'https://crowd-literature.eu/wp-content/uploads/2015/01/no-avatar.gif'
                         }
                         alt="Avatar Tailwind CSS Component"
                       />
                     </div>
                   </div>
-                  <div className="font-bold">{c.contact?.name}</div>
+                  <div className="font-bold">{c.user?.name}</div>
                 </div>
               </td>
-              <td className="bg-transparent">{c.contact?.email}</td>
+              <td className="bg-transparent">{c.user?.email}</td>
 
-              <td className="bg-transparent">{c.contact?.last_online}</td>
+              <td className="bg-transparent">{c.user?.last_online}</td>
               <th className="bg-transparent">
                 <Link
-                  to={`/contacts/${c.contact?.uuid}`}
+                  to={`/contacts/${c.user?.uuid}`}
                   className="btn btn-sm bg-purple-800 hover:bg-purple-700 border-none text-gray-200"
                 >
                   details

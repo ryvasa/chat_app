@@ -12,7 +12,10 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/:id" element={<Home />} />
+        <Route path="/chats" element={<Home />} />
+        <Route path="/chats/:id" element={<Home />} />
+        <Route path="/group" element={<Home />} />
+        <Route path="/group/:id" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/contacts" element={<Contacts />} />
