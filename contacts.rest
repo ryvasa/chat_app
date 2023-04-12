@@ -24,14 +24,18 @@ Content-Type: application/json
 
 
 ### add contact
-POST  http://localhost:5000/contacts/8103efa4-1c79-4505-9041-bd1eb9296f6c
+POST  http://localhost:5000/contacts
+Content-Type: application/json
 
+{
+    "userId":"1fbde93d-86a2-4c4a-bd75-f3a37b7514d2"
+}
 
 ### get contacts
 GET http://localhost:5000/contacts?name=
 
 ### get contact berdasarkan contact_id
-GET http://localhost:5000/contacts/69173d6e-ebca-4b81-9933-929bf736e1d5
+GET http://localhost:5000/contacts/7d3ebb98-3c90-473f-a5d0-9c2ad7b6a7fc
 
 ### delete contact
 DELETE http://localhost:5000/contacts/425aea17-8035-4855-8fbe-fbfa31d06017

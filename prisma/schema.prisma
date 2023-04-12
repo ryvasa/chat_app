@@ -23,69 +23,58 @@ model User {
   last_online   DateTime?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  contact      Contact[]
-  chat      Chat[]
+  contact      Contact[]@relation("user")
+  owner      Contact[]@relation("owner")
   message      Message[]
-  privateChat    PrivateChat[]
+  sender     PrivateChat[]@relation("sender")
+  receiver     PrivateChat[]@relation("receiver")
 }
 
 model Contact {
   id         Int     @id @default(autoincrement())
   uuid       String  @unique @default(uuid())
-  contact_id String @unique
-  user        String
-  contact    User @relation(fields: [contact_id], references: [uuid])
+  user_id String
+  owner_id       String 
+  user    User @relation("user",fields: [user_id], references: [uuid])
+  owner    User @relation("owner",fields: [owner_id], references: [uuid])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  privateChat    PrivateChat[]
 }
 
-model Chat {
+model GroupChat {
    id         Int     @id @default(autoincrement())
   uuid       String  @unique @default(uuid())
-  user_id     String
+  group_name  String
+  member Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  user      User @relation(fields: [user_id], references: [uuid])
   message Message[]
-  groupChat   GroupChat[]
-privateChat PrivateChat[]
+}
+model PrivateChat {
+   id         Int     @id @default(autoincrement())
+  uuid       String  @unique @default(uuid())
+ receiver_id  String
+ sender_id  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  message Message[]
+  sender    User     @relation("sender",fields: [sender_id], references: [uuid])
+  receiver  User     @relation("receiver",fields: [receiver_id], references: [uuid])
 }
 
 model Message {
    id         Int     @id @default(autoincrement())
   uuid       String  @unique @default(uuid())
    user_id  String
-  chat_id    String  
+  chat_id    String ?
+  group_id    String ? 
   message    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  chat       Chat @relation(fields: [chat_id], references: [uuid])
+  groupchat       GroupChat? @relation(fields: [group_id], references: [uuid])
+  privatechat       PrivateChat? @relation(fields: [chat_id], references: [uuid])
   user      User @relation(fields: [user_id], references: [uuid])
 }
-model GroupChat {
-id         Int     @id @default(autoincrement())
-  uuid       String  @unique @default(uuid())
-  chat_id   String
-  member Json?
-  group_name   String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  chat       Chat @relation(fields: [chat_id], references: [uuid])
-}
-model PrivateChat{
-  id         Int     @id @default(autoincrement())
-  uuid       String  @unique @default(uuid())
-  chat_id String
-  contact_id  String
-  user_id   String   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  chat       Chat @relation(fields: [chat_id], references: [uuid])
-  user      User @relation(fields: [user_id], references: [uuid])
-  contact      Contact @relation(fields: [contact_id], references: [uuid])
-}
-
 
 model Otp {
 id         Int     @id @default(autoincrement())

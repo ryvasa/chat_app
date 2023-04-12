@@ -1,0 +1,44 @@
+### Login 
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "password":"password"
+}
+###
+
+### get token
+GET http://localhost:5000/token/c0b2d38b-69e2-469e-9772-23a491bfc20a
+
+### add group_chats
+POST  http://localhost:5000/group_chats
+Content-Type: application/json
+
+{
+    "member":["a50d7f20-c5d1-469b-bebd-64b2f19da11f"],
+    "groupName":"Haha hihi"
+}
+
+### add group_chats
+POST  http://localhost:5000/group_chats
+Content-Type: application/json
+
+{
+    "receiverId":"1fbde93d-86a2-4c4a-bd75-f3a37b7514d2"
+}
+
+### get chats
+GET http://localhost:5000/group_chats
+
+### get contacts
+GET http://localhost:5000/contacts
+
+### get chat
+GET http://localhost:5000/group_chats/297801a3-e249-4547-9467-f0d5a09f2d03
+
+### out chat
+PUT http://localhost:5000/ group_chats/98dca051-dd29-48f3-99a5-7c67a91d8000
+ 
+### delete group_chats
+DELETE http://localhost:5000/group_chats/297801a3-e249-4547-9467-f0d5a09f2d03

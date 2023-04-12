@@ -1,5 +1,5 @@
 #### get all
-GET http://localhost:5000/users?name=s
+GET http://localhost:5000/users?name=
 
 #### get singgle
 GET http://localhost:5000/users/eae1469a-a615-401d-961b-5dda7b73236c
@@ -8,8 +8,8 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "name":"hihi",
-    "email":"hihi@gmail.com",
+    "name":"test",
+    "email":"test@gmail.com",
     "password":"password"
 }
 

@@ -1,0 +1,42 @@
+### Login 
+POST http://localhost:5000/auth/login
+Content-Type: application/json
+
+{
+    "email":"test@gmail.com",
+    "password":"password"
+}
+###
+
+### get token
+GET http://localhost:5000/token/c0b2d38b-69e2-469e-9772-23a491bfc20a
+
+### add private_chats
+POST  http://localhost:5000/private_chats
+Content-Type: application/json
+
+{
+    "member":["4f29bf9b-6924-47f1-848b-2d4c8ebe9936","8bde122e-0bd0-4720-bb37-7611cf6f7a41"],
+    "groupName":"Coba coba",
+    "group":true
+}
+
+### add private_chats
+POST  http://localhost:5000/private_chats
+Content-Type: application/json
+
+{
+    "receiverId":"1fbde93d-86a2-4c4a-bd75-f3a37b7514d2"
+}
+
+### get chats
+GET http://localhost:5000/private_chats
+
+### get contacts
+GET http://localhost:5000/contacts
+
+### get chat
+GET http://localhost:5000/private_chats/61a2428d-c945-497b-bf09-cbb2994abfda
+
+### delete private_chats
+DELETE http://localhost:5000/private_chats/61a2428d-c945-497b-bf09-cbb2994abfda

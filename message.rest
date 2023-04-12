@@ -9,4 +9,4 @@ Content-Type: application/json
 
 # menggunkan contoct id
 ### get messages 
-GET http://localhost:5000/messages/db31993a-842b-49b7-8c26-e4e347cb63fd
+GET http://localhost:5000/messages/7b49450e-d71d-4b91-ab16-68e9660f23c1

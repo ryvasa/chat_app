@@ -3,7 +3,7 @@ POST http://localhost:5000/auth/login
 Content-Type: application/json
 
 {
-    "email":"super@gmail.com",
+    "email":"test@gmail.com",
     "password":"password"
 }
 
@@ -23,10 +23,10 @@ POST http://localhost:5000/auth/register
 Content-Type: application/json
 
 {
-    "name":"test4",
-    "email":"test4@gmail.com",
+    "name":"test6",
+    "email":"test6@gmail.com",
     "password":"password"
 }
 
 ### first token
-GET http://localhost:5000/auth/first_token/c0060c3e-0bce-4cc5-82db-0dbc1477fcd7
+GET http://localhost:5000/auth/first_token/c0b2d38b-69e2-469e-9772-23a491bfc20a

@@ -6,7 +6,8 @@ import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 import { PrismaClient } from '@prisma/client';
 import userRoute from './routes/userRoute.js';
-import chatRoute from './routes/chatRoute.js';
+import privateChatRoute from './routes/privateChatRoute.js';
+import groupChatRoute from './routes/groupChatRoute.js';
 import contactRoute from './routes/contactRoute.js';
 import messageRoute from './routes/messageRoute.js';
 import authRoute from './routes/authRoute.js';
@@ -74,11 +75,12 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use(userRoute);
-app.use(chatRoute);
+app.use(privateChatRoute);
 app.use(contactRoute);
 app.use(messageRoute);
 app.use(authRoute);
 app.use(otpRoute);
 app.use(tokenRoute);
+app.use(groupChatRoute);
 
 server.listen(port);

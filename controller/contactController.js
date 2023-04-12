@@ -12,14 +12,23 @@ export const getContacts = async (req, res) => {
       const result = await prisma.contact.findMany({
         where: {
           AND: [
-            { OR: [{ user: decodedAccess.id }, { contact: { uuid: decodedAccess.id } }] },
-            { contact: { name: { contains: name } } },
+            { OR: [{ owner_id: decodedAccess.id }, { user_id: decodedAccess.id }] },
+            { user: { name: { contains: name } } },
           ],
         },
-        include: {
-          privateChat: true,
-          contact: {
-            select: { name: true, email: true, img: true, uuid: true, last_online: true },
+        select: {
+          uuid: true,
+          user_id: true,
+          owner_id: true,
+          user: {
+            select: {
+              name: true,
+              img: true,
+              uuid: true,
+              last_online: true,
+              online: true,
+              email: true,
+            },
           },
         },
       });
@@ -37,21 +46,21 @@ export const addContact = async (req, res) => {
         return res.status(403).json({ message: 'Invalid refresh token' });
       }
       const contact = await prisma.contact.findFirst({
-        where: { AND: [{ contact_id: req.params.id }, { user: decodedAccess.id }] },
+        where: { AND: [{ user_id: req.body.userId }, { owner_id: decodedAccess.id }] },
       });
       if (contact) {
         return res.status(400).json({ message: 'The user already exists in contact' });
       }
       const user = await prisma.user.findUnique({
-        where: { uuid: req.params.id },
+        where: { uuid: req.body.userId },
       });
       if (!user) {
         return res.status(400).json({ message: 'User not found' });
       }
       const result = await prisma.contact.create({
         data: {
-          contact_id: req.params.id,
-          user: decodedAccess.id,
+          user_id: req.body.userId,
+          owner_id: decodedAccess.id,
         },
       });
       res.status(200).json(result);
@@ -64,7 +73,7 @@ export const addContact = async (req, res) => {
 export const getContact = async (req, res) => {
   try {
     const result = await prisma.contact.findMany({
-      where: { contact_id: req.params.id },
+      where: { uuid: req.params.id },
     });
     if (!result) {
       return res.status(200).json('Contacts not found');

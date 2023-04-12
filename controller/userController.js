@@ -1,25 +1,37 @@
 import bcrypt from 'bcrypt';
 import { PrismaClient } from '@prisma/client';
+import jwt from 'jsonwebtoken';
 
 const prisma = new PrismaClient();
 export const getUsers = async (req, res) => {
   const name = req.query.name || '';
   try {
-    const result = await prisma.user.findMany({
-      select: {
-        name: true,
-        uuid: true,
-        img: true,
-        email: true,
-        last_online: true,
-      },
-      where: {
-        name: {
-          contains: name,
+    jwt.verify(req.cookies.access_token, process.env.ACCESS, async (err, decodedAccess) => {
+      if (err) {
+        return res.status(403).json({ message: 'Invalid refresh token' });
+      }
+      const result = await prisma.user.findMany({
+        select: {
+          name: true,
+          uuid: true,
+          img: true,
+          email: true,
+          last_online: true,
         },
-      },
+        where: {
+          AND: [
+            { uuid: { not: decodedAccess.id } },
+            {
+              name: {
+                contains: name,
+              },
+            },
+          ],
+        },
+      });
+      res.status(200).json(result);
+      return false;
     });
-    res.status(200).json(result);
   } catch (error) {
     res.status(500).json(error);
   }
@@ -38,7 +50,6 @@ export const getUser = async (req, res) => {
     });
     res.status(200).json({ user: result });
   } catch (error) {
-    console.log(error);
     res.status(500).json(error);
   }
 };
