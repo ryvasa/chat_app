@@ -31,8 +31,8 @@ export const sendVerifyOtp = async (data) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'ryanoktaviansaputra9@gmail.com',
-      pass: 'jwcfulsnveddqurr',
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
     },
   });
   transporter.sendMail(mailOptions, (error, info) => {

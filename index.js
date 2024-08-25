@@ -83,4 +83,4 @@ app.use(otpRoute);
 app.use(tokenRoute);
 app.use(groupChatRoute);
 
-server.listen(port);
+server.listen(port, () => console.log(`Server running on port ${port}`));
